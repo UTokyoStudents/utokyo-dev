@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "cd functions && npm install",
     "test": "node test.js"
   },
   "repository": {
