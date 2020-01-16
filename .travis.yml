@@ -1,8 +1,9 @@
 language: node_js
 node_js:
 - '10'
-deploy:
-  provider: firebase
-  skip_cleanup: true
-  token:
-    secure: "UWmYa9RkeqUBI59dZxntpYY6QWqTS2ByqviEfhoWYuW5dRQJkmGt+bOkne4JjGKqd9JrdsPAj5H1pbaJf0wMi+DStIYEd1NeOo4zWaigjPi6CHCgFgcKzbnIxjiD/HFaKu8gebjp6/Vr2dzBx2tzsP3x5EV3l8gFG99mkqncp6IGJgcyZggvjg+Q3pLNacVHZRq0sIeiw1cjqPvnlRMRh8cDKTnuOQAb/BPmhP9l6i/llqnjoRMpkcsBW6xW1ZWXrz9V10nCtUdiTIkq9z4Rna165mYDb2GI1L7NrDfAlkA3MmSpOK6T8PAADxwC7SldsShc6LtilkZkwDAIlebAPnpt26W2+qp/J6tF3jZOI+xCWZdAOuvazfyG71VFaP6LFCG9BrFyNHoN2B+rC6Y5o0C0e8GJuE38KVMR0zBQ8KDJn/kxW5Qkiku+mZfOfD4d4goNzFrNcEaU65H1NJlc5H/8JdfT02YqABE1U6k3FB7YXUei5N311mpnHKjB9nUSTu8pQcyRPhT4CpMcYBATe/9z3aGBXTk2W7d3CKXr16RBe392kbmGcDuByIYeIlAFY50EaFuJerOqCUjDG/q5X8IdCEZFLVyZuL3A7DB6wgoYbUJI2oqceuKmohOMn/SXjx4J6WPUg6CV7xT8R1CgwjZ/tUNZ+6y5K1SQwrFkUaI="
+script:
+- npm install -g firebase-tools
+- npm install
+after_success:
+- firebase deploy --project utokyo-dev --token $FIREBASE_TOKEN
+
