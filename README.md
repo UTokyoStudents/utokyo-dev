@@ -1,5 +1,7 @@
 # UTokyo-dev
 
+[![Build Status](https://travis-ci.org/UTokyoStudents/utokyo-dev.svg?branch=master)](https://travis-ci.org/UTokyoStudents/utokyo-dev)
+
 UTokyo 学生ドメインプロジェクト（開発環境）
 
 ## License
