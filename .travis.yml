@@ -6,4 +6,5 @@ script:
 - npm install
 after_success:
 - firebase deploy --project utokyo-dev --token $FIREBASE_TOKEN
-
+notifications:
+  slack: ut-jichikai137:XZprizkUhgGINIW76EiYKLNo
