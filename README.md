@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/UTokyoStudents/utokyo-dev.svg?branch=master)](https://travis-ci.org/UTokyoStudents/utokyo-dev)
 
-UTokyo 学生ドメインプロジェクト（開発環境）
+UTokyo 学生自治ドメインプロジェクト（開発環境）
 
 ## License
 Copyright (C) 2020  東京大学教養学部学生自治会

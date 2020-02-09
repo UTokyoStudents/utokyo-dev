@@ -4,6 +4,7 @@ node_js:
 script:
 - npm install -g firebase-tools
 - npm install
+- npm test
 after_success:
 - firebase deploy --project utokyo-dev --token $FIREBASE_TOKEN
 notifications:
