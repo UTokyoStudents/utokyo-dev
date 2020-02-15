@@ -5,7 +5,11 @@ script:
 - npm install -g firebase-tools
 - npm install
 - npm test
-after_success:
-- firebase deploy --project utokyo-dev --token $FIREBASE_TOKEN
+deploy:
+-
+  provider: script
+  script: firebase deploy --project utokyo-dev --token $FIREBASE_TOKEN
+  on:
+    branch: master
 notifications:
   slack: ut-jichikai137:XZprizkUhgGINIW76EiYKLNo

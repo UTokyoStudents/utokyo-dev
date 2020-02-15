@@ -1,68 +1,47 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<!--
+UTokyo 学生自治ドメインプロジェクト
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.6.2/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/7.6.2/firebase-auth.js"></script>
-    <script defer src="/__/firebase/7.6.2/firebase-database.js"></script>
-    <script defer src="/__/firebase/7.6.2/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/7.6.2/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
-<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+Copyright (C) 2020  東京大学教養学部学生自治会
 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang='ja' xml:lang='ja' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta charset='utf-8'/>
+<meta content='width=device-width, initial-scale=1' name='viewport'/>
+<title>UTokyo 学生自治ドメインプロジェクト</title>
+<meta content='default-src &apos;none&apos;; style-src &apos;self&apos; https://fonts.googleapis.com https://cdn.firebase.com; script-src &apos;self&apos; https://cdn.firebase.com; img-src &apos;self&apos;; child-src &apos;self&apos;; worker-src &apos;self&apos;; font-src &apos;self&apos; https://fonts.gstatic.com; frame-src &apos;self&apos;; connect-src &apos;self&apos;; manifest-src &apos;self&apos;; prefetch-src &apos;self&apos;; base-uri &apos;none&apos;; form-action &apos;self&apos;; upgrade-insecure-requests' http-equiv='content-security-policy'/>
+<link href='/_menhera/common/common.css' rel='stylesheet'/>
+<link href='/_menhera/common/root.css' rel='stylesheet'/>
+<script src='/_root.mjs' type='module'></script>
+<link as='style' href='/_menhera/components/menhera-window/menhera-window.css' rel='preload'/>
+<link as='style' href='/_menhera/components/menhera-markdown/menhera-markdown.css' rel='preload'/>
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+<!-- update the version number as needed -->
+<script defer='' src='/__/firebase/7.6.2/firebase-app.js'></script>
+<script defer='' src='/__/firebase/7.6.2/firebase-auth.js"></script>
+<script defer='' src='/__/firebase/7.6.2/firebase-database.js'></script>
+<script defer='' src='/__/firebase/7.6.2/firebase-messaging.js'></script>
+<script defer='' src='/__/firebase/7.6.2/firebase-storage.js'></script>
+
+<!-- initialize the SDK after all desired features are loaded -->
+<script defer='' src='/__/firebase/init.js'></script>
+
+<!-- Firebase UI -->
+<script src='https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js'></script>
+<link href='https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css' rel='stylesheet'/>
+</head>
+<body></body>
 </html>
