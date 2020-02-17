@@ -18,15 +18,26 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import {menhera} from '/_menhera/index.mjs';
+import {menhera, MenheraWindowElement} from '/_menhera/index.mjs';
+
+void menhera.addToCache (
+	'/_root.mjs'
+	,'/index.html'
+	,'/resources/u-tokyo_logo.128.png'
+	,'/resources/u-tokyo_logo.192.png'
+	,'/resources/u-tokyo_logo.256.png'
+	,'/resources/u-tokyo_logo.384.png'
+	,'/resources/u-tokyo_logo.512.png'
+);
 
 
-menhera.menheraWindow.addMenuGroup ('account');
-menhera.menheraWindow.setMenuGroupLabel ('account', 'Guest');
-menhera.menheraWindow.addMenuItem ('account', 'sign-in', 'ログイン', '/login');
+const menheraWindow = document.body.appendChild (new MenheraWindowElement);
+menheraWindow.addMenuGroup ('account');
+menheraWindow.setMenuGroupLabel ('account', 'Guest');
+menheraWindow.addMenuItem ('account', 'sign-in', 'ログイン', '/login');
 
-menhera.menheraWindow.siteName = 'UTokyo 学生自治ドメイン';
-menhera.menheraWindow.siteSlogan = '東京大学の学生向け共用ドメイン（非公式）';
+menheraWindow.siteName = 'UTokyo 学生自治ドメイン';
+menheraWindow.siteSlogan = '東京大学の学生による学生のための共用ドメイン（大学非公認）';
 
 menhera.menheraWindow.title = '準備中…';
 
