@@ -34,14 +34,45 @@ admin.initializeApp({
 	databaseURL: "https://utokyo-dev.firebaseio.com"
 });
 
+const pton = ip => {
+	if (!ip.match (/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/) {
+		throw new Error ('Not an IPv4 address');
+	}
+	
+	const segments = ip.split ('.');
+	return (segments[0] << 24) | (segments[1] << 16) | (segments[2] << 8) | Number (segments[3]);
+};
+
+const compare_ip = (n, ip1, ip2) => {
+	let mask = 0x0;
+	for (let i = 0; i < 32 && i < n; i++) {
+		mask |= 0x1 << (31 - i);
+	}
+	
+	const ip1_n = pton (ip1);
+	const ip2_n = pton (ip2);
+	
+	return (ip1_n & mask) === (ip2_n & mask);
+};
+
 exports.test_database_0 = functions.https.onRequest (async (req, res) =>
 	{
 		try {
-			//const database = admin.database ();
+			const database = admin.database ();
 			
+			const ip = req.ip;
+			
+			const internal = compare_ip (16, '130.69.0.0', ip)
+				|| compare_ip (16, '133.11.0.0', ip)
+				|| compare_ip (16, '157.82.0.0', ip)
+				|| compare_ip (20, '192.51.208.0', ip);
+			
+			const segments = ip.split ('.');
+			const ip_n = (segments[0] << 24) | (segments[1] << 16) | (segments[2] << 8) | Number (segments[3]);
 			res.set ('Content-Type', 'application/json');
 			res.send (JSON.stringify ({
-				ip: req.ip
+				ip: req.ip,
+				internal
 			}));
 			
 		} catch (e) {
