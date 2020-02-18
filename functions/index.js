@@ -16,6 +16,8 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+
+const admin = require ('firebase-admin');
 const functions = require ('firebase-functions');
 
 // // Create and Deploy Your First Cloud Functions
@@ -24,3 +26,24 @@ const functions = require ('firebase-functions');
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
+
+const serviceAccount = require ('./utokyo-dev_service-account-key.json');
+
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount),
+	databaseURL: "https://utokyo-dev.firebaseio.com"
+});
+
+exports.test_database_0 = functions.https.onRequest (async (req, res) =>
+	{
+		try {
+			const database = admin.database ();
+			
+			res.set ('Content-Type', 'application/json');
+			return JSON.stringify ({
+				ip: req.ip
+			});
+		}
+	}
+);
+

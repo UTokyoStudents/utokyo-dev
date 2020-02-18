@@ -2,6 +2,7 @@ language: node_js
 node_js:
 - '10'
 script:
+- openssl aes-256-cbc -K $encrypted_884d48b7f311_key -iv $encrypted_884d48b7f311_iv -in utokyo-dev_service-account-key.json.enc -out functions/utokyo-dev_service-account-key.json -d
 - npm install -g firebase-tools
 - npm install
 - npm test
