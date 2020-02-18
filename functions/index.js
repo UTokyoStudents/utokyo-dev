@@ -39,15 +39,16 @@ exports.test_database_0 = functions.https.onRequest (async (req, res) =>
 		try {
 			//const database = admin.database ();
 			
-			//res.set ('Content-Type', 'application/json');
-			return {
+			res.set ('Content-Type', 'application/json');
+			res.send (JSON.stringify ({
 				ip: req.ip
-			};
+			}));
+			
 		} catch (e) {
-			//res.set ('Content-Type', 'application/json');
-			return {
+			res.set ('Content-Type', 'application/json');
+			res.send (JSON.stringify ({
 				error: String (e)
-			};
+			}));
 		}
 	}
 );
