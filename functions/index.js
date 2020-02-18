@@ -60,6 +60,7 @@ exports.test_database_0 = functions.https.onRequest (async (req, res) =>
 		try {
 			const database = admin.database ();
 			
+			const trueip = req.get ('fastly-client-ip');
 			const ip = req.ip;
 			
 			const internal = compare_ip (16, '130.69.0.0', ip)
@@ -73,7 +74,8 @@ exports.test_database_0 = functions.https.onRequest (async (req, res) =>
 			res.send (JSON.stringify ({
 				ip: req.ip,
 				ips: req.ips,
-				internal
+				internal,
+				trueip
 			}));
 			
 		} catch (e) {
