@@ -72,6 +72,7 @@ exports.test_database_0 = functions.https.onRequest (async (req, res) =>
 			res.set ('Content-Type', 'application/json');
 			res.send (JSON.stringify ({
 				ip: req.ip,
+				ips: req.ips,
 				internal
 			}));
 			
