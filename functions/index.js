@@ -35,7 +35,7 @@ admin.initializeApp({
 });
 
 const pton = ip => {
-	if (!ip.match (/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/) {
+	if (!ip.match (/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/)) {
 		throw new Error ('Not an IPv4 address');
 	}
 	
