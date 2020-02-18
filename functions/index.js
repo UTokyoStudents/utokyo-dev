@@ -37,7 +37,7 @@ admin.initializeApp({
 exports.test_database_0 = functions.https.onRequest (async (req, res) =>
 	{
 		try {
-			const database = admin.database ();
+			//const database = admin.database ();
 			
 			res.set ('Content-Type', 'application/json');
 			return JSON.stringify ({
