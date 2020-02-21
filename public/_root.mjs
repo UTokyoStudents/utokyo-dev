@@ -18,7 +18,7 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import {menhera, MenheraWindowElement} from '/_menhera/index.mjs';
+import {menhera, MenheraWindowElement, NavigationTarget} from '/_menhera/index.mjs';
 
 void menhera.addToCache (
 	'/_root.mjs'
@@ -32,12 +32,43 @@ void menhera.addToCache (
 
 
 const menheraWindow = document.body.appendChild (new MenheraWindowElement);
-menheraWindow.addMenuGroup ('account');
-menheraWindow.setMenuGroupLabel ('account', 'Guest');
-menheraWindow.addMenuItem ('account', 'sign-in', 'ログイン', '/login');
+menheraWindow.addMenuGroup ('account_menu');
+menheraWindow.setMenuGroupLabel ('account_menu', 'Guest');
+menheraWindow.addMenuItem ('account_menu', 'home', 'ホーム', '/');
+menheraWindow.addMenuItem ('account_menu', 'sign_in', 'ログイン', '/login');
+
+firebase.auth ().onAuthStateChanged (user =>
+	{
+		if (!user) {
+			menheraWindow.removeMenuGroup ('domain_menu');
+			menheraWindow.removeMenuItem ('account_menu', 'settings');
+			menheraWindow.setMenuGroupLabel ('account_menu', 'Guest');
+			menheraWindow.addMenuItem ('account_menu', 'sign_in', 'ログイン', '/login');
+			menhera.triggerNavigation (new NavigationTarget ('/'), window, true);
+		} else {
+			menheraWindow.removeMenuItem ('account_menu', 'sign_in');
+			menheraWindow.setMenuGroupLabel ('account_menu', user.displayName);
+			menheraWindow.addMenuItem ('account_menu', 'settings', '設定', '/settings');
+			menheraWindow.addMenuGroup ('domain_menu');
+			menheraWindow.setMenuGroupLabel ('domain_menu', 'ドメイン');
+			menheraWindow.addMenuItem ('domain_menu', 'subdomains', 'サブドメイン一覧', '/subdomains');
+			
+		}
+	}
+);
 
 menheraWindow.siteName = 'UTokyo 学生自治ドメイン';
 menheraWindow.siteSlogan = '東京大学の学生による学生のための共用ドメイン（大学非公認）';
 
-menhera.menheraWindow.title = '準備中…';
+menheraWindow.title = '準備中…';
+
+
+top.addEventListener ('MenheraNavigate', ({detail}) =>
+	{
+		const {target, view} = detail;
+		if ('/' === target.path) {
+			
+		}
+	}
+);
 

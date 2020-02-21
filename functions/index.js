@@ -20,12 +20,9 @@
 const admin = require ('firebase-admin');
 const functions = require ('firebase-functions');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+const express = require ('express');
+const app = express ();
+
 
 const serviceAccount = require ('./utokyo-dev_service-account-key.json');
 
@@ -33,6 +30,9 @@ admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 	databaseURL: "https://utokyo-dev.firebaseio.com"
 });
+
+
+const AUTH_PREFIX = 'Bearer ';
 
 const pton = ip => {
 	if (!ip.match (/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/)) {
@@ -55,29 +55,97 @@ const compare_ip = (n, ip1, ip2) => {
 	return (ip1_n & mask) === (ip2_n & mask);
 };
 
+const is_internal = ip =>
+	compare_ip (16, '130.69.0.0', ip)
+		|| compare_ip (16, '133.11.0.0', ip)
+		|| compare_ip (16, '157.82.0.0', ip)
+		|| compare_ip (20, '192.51.208.0', ip);
+
+exports.is_utnet = functions.https.onRequest (async (req, res) =>
+	{
+		const ip = String (req.ip);
+		
+		let internal = false;
+		try {
+			internal = is_internal (ip);
+		} catch (ex) {
+			internal = false;
+		}
+		
+		res.set ('Content-Type', 'application/json');
+		res.send (JSON.stringify ({
+			ip_address: ip,
+			is_internal: internal,
+		}));
+	}
+);
+
+exports.find_subdomain = functions.https.onRequest (async (req, res) =>
+	{
+		const ip = String (req.ip);
+		
+		let internal = false;
+		try {
+			internal = is_internal (ip);
+		} catch (ex) {
+			internal = false;
+		}
+		
+		res.set ('Content-Type', 'application/json');
+		res.send (JSON.stringify ({
+			ip_address: ip,
+			is_internal: internal,
+		}));
+	}
+);
+
+exports.test_auth_0 = functions.https.onRequest (async (req, res) =>
+	{
+		const data = {};
+		
+		try {
+			if (!req.query.token) {
+				throw new Error ('Unauthorized request');
+			}
+			
+			const idToken = req.query.token.trim ();
+			const auth = admin.auth ();
+			const decodedToken = await auth.verifyIdToken (idToken);
+			data.uid = decodedToken.uid;
+		} catch (e) {
+			//
+		}
+		
+		res.set ('Content-Type', 'application/json');
+		res.send (JSON.stringify (data));
+	}
+);
+
 exports.test_database_0 = functions.https.onRequest (async (req, res) =>
 	{
+		
 		try {
 			const database = admin.database ();
 			
-			const trueip = req.get ('fastly-client-ip');
+			//const trueip = req.get ('fastly-client-ip');
 			const ip = req.ip;
 			
-			const internal = compare_ip (16, '130.69.0.0', ip)
-				|| compare_ip (16, '133.11.0.0', ip)
-				|| compare_ip (16, '157.82.0.0', ip)
-				|| compare_ip (20, '192.51.208.0', ip);
+			const internal = is_internal (ip);
 			
-			const segments = ip.split ('.');
-			const ip_n = (segments[0] << 24) | (segments[1] << 16) | (segments[2] << 8) | Number (segments[3]);
+			
+			const authorization = req.get ('Authorization');
+			if ((!authorization) || (!authorization.startWith (AUTH_PREFIX))) {
+				
+			}
+			
 			res.set ('Content-Type', 'application/json');
 			res.send (JSON.stringify ({
 				ip: req.ip,
-				ips: req.ips,
-				internal,
-				trueip
+				internal
 			}));
 			
+			
+			const token = req.param ('token');
 		} catch (e) {
 			res.set ('Content-Type', 'application/json');
 			res.send (JSON.stringify ({

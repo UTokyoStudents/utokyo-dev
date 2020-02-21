@@ -1,16 +1,18 @@
 language: node_js
 node_js:
 - '10'
-script:
+install:
 - openssl aes-256-cbc -K $encrypted_884d48b7f311_key -iv $encrypted_884d48b7f311_iv -in utokyo-dev_service-account-key.json.enc -out functions/utokyo-dev_service-account-key.json -d
-- npm install -g firebase-tools
-- npm install
-- npm test
+- npm --prefix ./functions install
+script:
+- npm --prefix ./functions test
 deploy:
 -
-  provider: script
+  provider: firebase
   skip_cleanup: true
-  script: firebase deploy --project utokyo-dev --token $FIREBASE_TOKEN
+  project: "utokyo-dev"
+  token:
+    secure: $FIREBASE_TOKEN
   on:
     branch: master
 notifications:
