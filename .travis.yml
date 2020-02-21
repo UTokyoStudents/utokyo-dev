@@ -11,9 +11,9 @@ deploy:
   provider: firebase
   edge: true
   skip_cleanup: true
-  project: "utokyo-dev"
+  project: utokyo-dev
   token:
-    secure: $FIREBASE_TOKEN
+    secure: ogukTdSTCdumpCCgIa6mI7jXntbzsOQKGkqS9+r5OfF0dwXw4AF40Kge1npjrjWK25OiY2wCZbwtz6oc36jY+GQDh05rdulTi4d8VTG4BfdUCc8B18QueSt6LK036dDJMMxBGKI4iDA2bEukCSV4AhpVnXOdgxhseSl+Uoh9kIx4HB25zg19V4Jq0Nh1Q6+vtY6/TdaUi2kqB3dfPFacekJzUgEdNL/FdegK2WfxHp7DCHUjJNMgb1KFEtUXYuFAZpf5WQRZ8/fQsgL/e9OPVr/WSKszSHnDrtIXwHQUS6oIXpoijpv1cikJK6BHPSpYOP4KWHkPzfV8wC4izLzeCYLic4WF7WqiVe/1ddhre8lqFE32SVxIK/Di1A7qqUBmd7Tfhk0+BQwD1gQyRKBrMXCVHJo1MUwj+z9HE4OAyaoS+okHJcnibbYzNZjiEWLMXaDpJzUBhPO+32H1DdXsUVgEKjmP+X5RMwiaJ+3Rmqh8M77/Ca+FccvYhi9QScdP1/usJ1NPip6rP/GnBGOYa85/piaiupDP5rE7eDr3YYlqtBvcgOaZOC1C3OMpt44iBUH3dyyPEH+Ua3MsOAcqB7BClz/8zpXL05MYw2tWezrCz33wlbeiqP1nbAlWRxpbP7hFDPia2m5umQ0Rz5lG5NKdSzaYxkxLEsZfa47qBR4=
   on:
     branch: master
 notifications:
