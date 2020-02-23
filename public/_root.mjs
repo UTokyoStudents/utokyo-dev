@@ -35,7 +35,7 @@ const menheraWindow = document.body.appendChild (new MenheraWindowElement);
 menheraWindow.addMenuGroup ('account_menu');
 menheraWindow.setMenuGroupLabel ('account_menu', 'Guest');
 menheraWindow.addMenuItem ('account_menu', 'home', 'ホーム', '/');
-menheraWindow.addMenuItem ('account_menu', 'sign_in', 'ログイン', '/login');
+
 
 firebase.auth ().onAuthStateChanged (user =>
 	{

@@ -62,6 +62,26 @@ const is_internal = ip =>
 		|| compare_ip (16, '157.82.0.0', ip)
 		|| compare_ip (20, '192.51.208.0', ip);
 
+const is_utnet = req =>
+{
+	let ip = String (req.ip).trim ();
+	
+	if (TRUSTED_PROXIES.includes (ip)) {
+		let real_ip = req.get ('Menhera-Real-IP');
+		ip = real_ip ? String (real_ip).trim () : ip;
+	}
+	
+	let internal = false;
+	try {
+		internal = is_internal (ip);
+	} catch (ex) {
+		internal = false;
+	}
+	
+	return internal;
+};
+
+
 exports.is_utnet = functions.https.onRequest (async (req, res) =>
 	{
 		let ip = String (req.ip).trim ();
@@ -86,7 +106,7 @@ exports.is_utnet = functions.https.onRequest (async (req, res) =>
 	}
 );
 
-exports.find_subdomain = functions.https.onRequest (async (req, res) =>
+exports.get_subdomain = functions.https.onRequest (async (req, res) =>
 	{
 		const ip = String (req.ip);
 		
@@ -105,9 +125,12 @@ exports.find_subdomain = functions.https.onRequest (async (req, res) =>
 	}
 );
 
-exports.test_auth_0 = functions.https.onRequest (async (req, res) =>
+exports.verify_membership = functions.https.onRequest (async (req, res) =>
 	{
-		const data = {};
+		const data = {
+			member: false,
+			messages: [],
+		};
 		
 		try {
 			if (!req.query.token) {
@@ -115,11 +138,39 @@ exports.test_auth_0 = functions.https.onRequest (async (req, res) =>
 			}
 			
 			const idToken = req.query.token.trim ();
-			const auth = admin.auth ();
-			const decodedToken = await auth.verifyIdToken (idToken);
-			data.uid = decodedToken.uid;
+			const decodedToken = await admin.auth ().verifyIdToken (idToken);
+			const uid = data.uid = decodedToken.uid;
+			if (!uid) {
+				throw new Error ('Invalid auth');
+			}
+			if (!decodedToken.member) {
+				const internal_ip = is_utnet (req);
+				if (internal_ip) {
+					await admin.auth ()
+						.setCustomUserClaims (uid, {member: true});
+					
+					data.member = true;
+					data.messages.push ('Verified as a member by IP address');
+				} else {
+					const user = await admin.auth ().getUser (uid);
+					data.messages.push ('Not requested from an internal IP address');
+					if (user.emailVerified && user.email.match (/^[^@]+@([-0-9a-zA-Z]+\.)*u-tokyo\.ac\.jp$/)) {
+						await admin.auth ()
+							.setCustomUserClaims (uid, {member: true});
+						
+						data.member = true;
+						data.messages.push ('Verified as a member by u-tokyo.ac.jp email address');
+					} else {
+						data.messages.push ('No verified u-tokyo.ac.jp email address');
+					}
+				}
+			} else {
+				data.messages.push ('Already verified as a member');
+				data.member = true;
+			}
 		} catch (e) {
-			//
+			data.error = String (e);
+			data.member = false;
 		}
 		
 		res.set ('Content-Type', 'application/json');
