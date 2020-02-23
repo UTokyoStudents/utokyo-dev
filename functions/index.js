@@ -63,7 +63,11 @@ const is_internal = ip =>
 
 exports.is_utnet = functions.https.onRequest (async (req, res) =>
 	{
-		const ip = String (req.ip);
+		let ip = String (req.ip).trim ();
+		
+		if ('34.85.106.248' === ip && req.headers.menhera_real_ip) {
+			ip = String (req.headers.menhera_real_ip).trim ();
+		}
 		
 		let internal = false;
 		try {

@@ -11,6 +11,10 @@
     ],
     "rewrites": [
       {
+      	"source": "/_api/is_utnet",
+      	"function": "is_utnet"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
