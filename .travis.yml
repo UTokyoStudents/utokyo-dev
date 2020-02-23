@@ -11,7 +11,7 @@ deploy:
 -
   provider: script
   skip_cleanup: true
-  script: firebase deploy --project=utokyo-dev --token=$FIREBASE_TOKEN
+  script: firebase deploy --non-interactive --project=utokyo-dev --token=$FIREBASE_TOKEN
   on:
     branch: master
 notifications:
