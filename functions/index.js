@@ -33,6 +33,7 @@ admin.initializeApp({
 
 
 const AUTH_PREFIX = 'Bearer ';
+const TRUSTED_PROXIES = ['34.85.106.248'];
 
 const pton = ip => {
 	if (!ip.match (/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/)) {
@@ -65,8 +66,8 @@ exports.is_utnet = functions.https.onRequest (async (req, res) =>
 	{
 		let ip = String (req.ip).trim ();
 		
-		if ('34.85.106.248' === ip && req.headers.menhera_real_ip) {
-			ip = String (req.headers.menhera_real_ip).trim ();
+		if (TRUSTED_PROXIES.includes (ip) && req.headers.menheraRealIp) {
+			ip = String (req.headers.menheraRealIp).trim ();
 		}
 		
 		let internal = false;
