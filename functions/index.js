@@ -66,8 +66,9 @@ exports.is_utnet = functions.https.onRequest (async (req, res) =>
 	{
 		let ip = String (req.ip).trim ();
 		
-		if (TRUSTED_PROXIES.includes (ip) && req.headers.menheraRealIp) {
-			ip = String (req.headers.menheraRealIp).trim ();
+		if (TRUSTED_PROXIES.includes (ip)) {
+			let real_ip = req.get ('Menhera-Real-IP');
+			ip = real_ip ? String (real_ip).trim () : ip;
 		}
 		
 		let internal = false;
